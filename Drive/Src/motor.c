@@ -35,12 +35,12 @@ static int16_t GetSign(int16_t x)
 /*DJ电机初始化*/
 void DJmotor_Init(void)
 {
-    DJmotorParam dj2006_param;
-    DJmotorParam dj3508_param;
-    DJmotorLimit limit;
-    DJmotorStatus statusFlag;
-    DJmotorArgum argum;
-    DJmotorError error;
+    DJmotorParam dj2006_param ={0};
+    DJmotorParam dj3508_param={0};
+    DJmotorLimit limit = {0};
+    DJmotorStatus statusFlag={0};
+    DJmotorArgum argum={0};
+    DJmotorError error={0};
 
     dj2006_param.ParamID = 0x1ffU;
     dj2006_param.Gear_ratio = 1.0f;
@@ -78,7 +78,7 @@ void DJmotor_Init(void)
 
     for (uint32_t i = 0; i < USE_DJNUM; i++)
     {
-        DJmotor[i].Begin = false;
+        DJmotor[i].Begin = true;
         DJmotor[i].MODE_Set = DJ_Disable; /*上电失能，发0电流*/
         DJmotor[i].statusFlag = statusFlag;
         DJmotor[i].limit = limit;

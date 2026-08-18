@@ -8,7 +8,7 @@
 #include "protocol.h"
 
 #define USE_DJ 1
-#define USE_DJNUM 4
+#define USE_DJNUM 8
 
 typedef enum
 {
