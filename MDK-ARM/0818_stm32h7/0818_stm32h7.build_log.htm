@@ -1,0 +1,238 @@
+<html>
+<body>
+<pre>
+<h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: ¦ÌVision V5.37.0.0
+Copyright (C) 2022 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: ye ysq1987403812@outlook.com, whu, LIC=MPPLD-8NY7M-QDRKD-8SC1S-4SU4Q-8FY0H
+ 
+Tool Versions:
+Toolchain:       MDK-ARM Plus  Version: 5.37.0.0
+Toolchain Path:  E:\app\Keil\ARM\ARMCLANG\Bin
+C Compiler:      ArmClang.exe V6.18
+Assembler:       Armasm.exe V6.18
+Linker/Locator:  ArmLink.exe V6.18
+Library Manager: ArmAr.exe V6.18
+Hex Converter:   FromElf.exe V6.18
+CPU DLL:         SARMCM3.DLL V5.37.0.0
+Dialog DLL:      DCM.DLL V1.17.5.0
+Target DLL:      STLink\ST-LINKIII-KEIL_SWO.dll V3.0.9.0
+Dialog DLL:      TCM.DLL V1.56.1.0
+ 
+<h2>Project:</h2>
+E:\RC_EC\Stm32\0818_stm32h7\MDK-ARM\0818_stm32h7.uvprojx
+Project File Date:  08/18/2026
+
+<h2>Output:</h2>
+*** Using Compiler 'V6.18', folder: 'E:\app\Keil\ARM\ARMCLANG\Bin'
+Rebuild target '0818_stm32h7'
+compiling gpio.c...
+compiling stm32h7xx_it.c...
+../Core/Src/freertos.c(29): warning: In file included from...
+../User/Inc\app_tasks.h(6): warning: In file included from...
+../Drive/Inc\motor.h(7): warning: In file included from...
+../Algorithm/Inc\pid.h(28): warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif PID_H
+       ^
+       //
+../Core/Src/freertos.c(29): warning: In file included from...
+../User/Inc\app_tasks.h(6): warning: In file included from...
+../Drive/Inc\motor.h(8): warning: missing terminating '"' character [-Winvalid-pp-token]
+#include "protocol.h""
+                     ^
+../Drive/Inc\motor.h(8): warning: extra tokens at end of #include directive [-Wextra-tokens]
+#include "protocol.h""
+                     ^
+                     //
+3 warnings generated.
+compiling freertos.c...
+assembling startup_stm32h723xx.s...
+compiling stm32h7xx_hal_timebase_tim.c...
+../Core/Src/main.c(28): warning: In file included from...
+../Drive/Inc\motor.h(7): warning: In file included from...
+../Algorithm/Inc\pid.h(28): warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif PID_H
+       ^
+       //
+../Core/Src/main.c(28): warning: In file included from...
+../Drive/Inc\motor.h(8): warning: missing terminating '"' character [-Winvalid-pp-token]
+#include "protocol.h""
+                     ^
+../Drive/Inc\motor.h(8): warning: extra tokens at end of #include directive [-Wextra-tokens]
+#include "protocol.h""
+                     ^
+                     //
+../Core/Src/main.c(112): warning: implicit declaration of function 'fdCan_Start' is invalid in C99 [-Wimplicit-function-declaration]
+  fdCan_Start();
+  ^
+4 warnings generated.
+compiling main.c...
+compiling stm32h7xx_hal_msp.c...
+compiling stm32h7xx_hal_cortex.c...
+../Core/Src/fdcan.c(195): warning: '/*' within block comment [-Wcomment]
+  /* USER CODE END FDCAN1_MspInit 1 */
+  ^
+1 warning generated.
+compiling fdcan.c...
+compiling stm32h7xx_hal_flash.c...
+compiling stm32h7xx_hal_flash_ex.c...
+compiling stm32h7xx_hal_rcc.c...
+compiling stm32h7xx_hal_gpio.c...
+compiling stm32h7xx_hal_rcc_ex.c...
+compiling stm32h7xx_hal_hsem.c...
+compiling stm32h7xx_hal_tim_ex.c...
+compiling stm32h7xx_hal_fdcan.c...
+compiling stm32h7xx_hal_dma_ex.c...
+compiling stm32h7xx_hal_mdma.c...
+compiling stm32h7xx_hal_dma.c...
+compiling stm32h7xx_hal_i2c_ex.c...
+compiling stm32h7xx_hal_pwr.c...
+compiling stm32h7xx_hal_exti.c...
+compiling stm32h7xx_hal_tim.c...
+compiling system_stm32h7xx.c...
+../Algorithm/Src/pid.c(1): warning: In file included from...
+../Algorithm/Inc\pid.h(28): warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif PID_H
+       ^
+       //
+1 warning generated.
+compiling pid.c...
+compiling mpu_wrappers_v2.c...
+../User/Src/app_tasks.c(1): warning: In file included from...
+../User/Inc\app_tasks.h(6): warning: In file included from...
+../Drive/Inc\motor.h(7): warning: In file included from...
+../Algorithm/Inc\pid.h(28): warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif PID_H
+       ^
+       //
+../User/Src/app_tasks.c(1): warning: In file included from...
+../User/Inc\app_tasks.h(6): warning: In file included from...
+../Drive/Inc\motor.h(8): warning: missing terminating '"' character [-Winvalid-pp-token]
+#include "protocol.h""
+                     ^
+../Drive/Inc\motor.h(8): warning: extra tokens at end of #include directive [-Wextra-tokens]
+#include "protocol.h""
+                     ^
+                     //
+3 warnings generated.
+compiling app_tasks.c...
+../User/Src/fdCan_IRQ_Handler.c(1): warning: In file included from...
+../User/Inc\fdCan_IRQ_Handler.h(6): warning: In file included from...
+../User/Inc/app_tasks.h(6): warning: In file included from...
+../Drive/Inc\motor.h(7): warning: In file included from...
+../Algorithm/Inc\pid.h(28): warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif PID_H
+       ^
+       //
+../User/Src/fdCan_IRQ_Handler.c(1): warning: In file included from...
+../User/Inc\fdCan_IRQ_Handler.h(6): warning: In file included from...
+../User/Inc/app_tasks.h(6): warning: In file included from...
+../Drive/Inc\motor.h(8): warning: missing terminating '"' character [-Winvalid-pp-token]
+#include "protocol.h""
+                     ^
+../Drive/Inc\motor.h(8): warning: extra tokens at end of #include directive [-Wextra-tokens]
+#include "protocol.h""
+                     ^
+                     //
+../User/Src/fdCan_IRQ_Handler.c(41): warning: implicitly declaring library function 'memcpy' with type 'void *(void *, const void *, unsigned int)' [-Wimplicit-function-declaration]
+    memcpy(Msg.data,data,8);
+    ^
+../User/Src/fdCan_IRQ_Handler.c(41): note: include the header <string.h> or explicitly provide a declaration for 'memcpy'
+4 warnings generated.
+compiling fdCan_IRQ_Handler.c...
+compiling stm32h7xx_hal.c...
+compiling stm32h7xx_hal_pwr_ex.c...
+../Drive/Src/motor.c(1): warning: In file included from...
+../Drive/Inc\motor.h(7): warning: In file included from...
+../Algorithm/Inc\pid.h(28): warning: extra tokens at end of #endif directive [-Wextra-tokens]
+#endif PID_H
+       ^
+       //
+../Drive/Src/motor.c(1): warning: In file included from...
+../Drive/Inc\motor.h(8): warning: missing terminating '"' character [-Winvalid-pp-token]
+#include "protocol.h""
+                     ^
+../Drive/Inc\motor.h(8): warning: extra tokens at end of #include directive [-Wextra-tokens]
+#include "protocol.h""
+                     ^
+                     //
+../Drive/Src/motor.c(178): warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+static EncodeS16Data(int16_t d16,int8_t* d8)
+~~~~~~ ^
+../Drive/Src/motor.c(182): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+../Drive/Src/motor.c(184): warning: type specifier missing, defaults to 'int' [-Wimplicit-int]
+static ChangeDataByte(int8_t *a, int8_t *b)
+~~~~~~ ^
+../Drive/Src/motor.c(190): warning: non-void function does not return a value [-Wreturn-type]
+}
+^
+../Drive/Src/motor.c(223): warning: incompatible pointer to integer conversion passing 'volatile int16_t *' (aka 'volatile short *') to parameter of type 'int16_t' (aka 'short') [-Wint-conversion]
+    EncodeS16Data(&motor->valSet.current_raw,&tx_data[tag]);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+../Drive/Src/motor.c(178): note: passing argument to parameter 'd16' here
+static EncodeS16Data(int16_t d16,int8_t* d8)
+                             ^
+../Drive/Src/motor.c(223): warning: passing 'uint8_t *' (aka 'unsigned char *') to parameter of type 'int8_t *' (aka 'signed char *') converts between pointers to integer types with different sign [-Wpointer-sign]
+    EncodeS16Data(&motor->valSet.current_raw,&tx_data[tag]);
+                                             ^~~~~~~~~~~~~
+../Drive/Src/motor.c(178): note: passing argument to parameter 'd8' here
+static EncodeS16Data(int16_t d16,int8_t* d8)
+                                         ^
+../Drive/Src/motor.c(224): warning: passing 'uint8_t *' (aka 'unsigned char *') to parameter of type 'int8_t *' (aka 'signed char *') converts between pointers to integer types with different sign [-Wpointer-sign]
+    ChangeDataByte(&tx_data[tag],&tx_data[tag+1U]);
+                   ^~~~~~~~~~~~~
+../Drive/Src/motor.c(184): note: passing argument to parameter 'a' here
+static ChangeDataByte(int8_t *a, int8_t *b)
+                              ^
+../Drive/Src/motor.c(224): warning: passing 'uint8_t *' (aka 'unsigned char *') to parameter of type 'int8_t *' (aka 'signed char *') converts between pointers to integer types with different sign [-Wpointer-sign]
+    ChangeDataByte(&tx_data[tag],&tx_data[tag+1U]);
+                                 ^~~~~~~~~~~~~~~~
+../Drive/Src/motor.c(184): note: passing argument to parameter 'b' here
+static ChangeDataByte(int8_t *a, int8_t *b)
+                                         ^
+11 warnings generated.
+compiling motor.c...
+compiling croutine.c...
+compiling list.c...
+compiling event_groups.c...
+compiling port.c...
+compiling heap_4.c...
+compiling timers.c...
+compiling stream_buffer.c...
+compiling queue.c...
+compiling tasks.c...
+compiling stm32h7xx_hal_i2c.c...
+compiling cmsis_os2.c...
+linking...
+Program Size: Code=24612 RO-data=980 RW-data=20 ZI-data=21780  
+FromELF: creating hex file...
+"0818_stm32h7\0818_stm32h7.axf" - 0 Error(s), 27 Warning(s).
+
+<h2>Software Packages used:</h2>
+
+Package Vendor: ARM
+                http://www.keil.com/pack/ARM.CMSIS.5.9.0.pack
+                ARM.CMSIS.5.9.0
+                CMSIS (Common Microcontroller Software Interface Standard)
+   * Component: CORE Version: 5.6.0
+
+Package Vendor: Keil
+                https://www.keil.com/pack/Keil.STM32H7xx_DFP.4.1.3.pack
+                Keil.STM32H7xx_DFP.4.1.3
+                STMicroelectronics STM32H7 Series Device Support
+
+<h2>Collection of Component include folders:</h2>
+  ./RTE/_0818_stm32h7
+  E:/app/Keil/keil_pack/ARM/CMSIS/5.9.0/CMSIS/Core/Include
+
+<h2>Collection of Component Files used:</h2>
+
+   * Component: ARM::CMSIS:CORE:5.6.0
+      Include file:  CMSIS/Core/Include/tz_context.h
+Build Time Elapsed:  00:00:03
+</pre>
+</body>
+</html>
