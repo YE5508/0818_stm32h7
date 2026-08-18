@@ -5,7 +5,7 @@
 #include "main.h"
 #include <stdbool.h>
 #include "pid.h"
-#include "protocol.h""
+#include "protocol.h"
 
 #define USE_DJ 1
 #define USE_DJNUM 4

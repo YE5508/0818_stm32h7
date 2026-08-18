@@ -5,8 +5,8 @@
 #define M2006_RATIO 36
 #define M3508_RATIO 3591 / 187
 
-#define M2006_NUM 1
-#define M3508_NUM 1
+#define M2006_NUM 8
+#define M3508_NUM 8
 
 #define Zero_Distance 10
 
@@ -175,13 +175,13 @@ void DJmotor_Receive(CanMsg_t msg)
     DJmotor_AngleCalculate(motor);
 }
 
-static EncodeS16Data(int16_t d16,int8_t* d8)
+static void EncodeS16Data(volatile int16_t *d16,uint8_t* d8)
 {
-    d8[0]=(int8_t)((d16>>8)&0x00FF);
-    d8[1]=(int8_t)(d16&0x00FF);
+    d8[1]=(int8_t)((*d16>>8)&0x00FF);
+    d8[0]=(int8_t)(*d16&0x00FF);
 }
 
-static ChangeDataByte(int8_t *a, int8_t *b)
+static void ChangeDataByte(uint8_t *a, uint8_t *b)
 {
     int8_t c;
     c=*a;
@@ -223,7 +223,7 @@ void DJmotor_CurrentTransmit(DJMotorPointer motor)
     EncodeS16Data(&motor->valSet.current_raw,&tx_data[tag]);
     ChangeDataByte(&tx_data[tag],&tx_data[tag+1U]);
 
-    if(motor->ID == 4U || motor->ID == 8U)
+    if(motor->ID>=1U&&motor->ID<=8U)
     {
         HAL_FDCAN_AddMessageToTxFifoQ(DJmotor_GetCanHandle(),&tx_header,tx_data);
     }
@@ -244,6 +244,10 @@ static void DJmotor_SwitchMode(DJMotorPointer motor)
 		motor->statusFlag.ZeroFlag = false;
 		motor->statusFlag.Overtimeflag = false;
 		motor->statusFlag.StuckFlag = false;
+        if(motor->MODE_Cur!=DJ_Disable)
+        {
+            motor->Begin =true;
+        }
 	}
 }
 

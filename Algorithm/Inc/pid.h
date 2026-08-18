@@ -25,4 +25,4 @@ typedef struct
 float PID_Caculate(PIDType* pid);
 void PID_Reset(PIDType* pid);
 void PID_Init(PIDType* pid,float Kp,float Ki,float Kd,PIDmode mode);
-#endif PID_H
+#endif

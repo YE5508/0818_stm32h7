@@ -44,4 +44,6 @@
   ..\Drivers\CMSIS\RTOS2\Include\cmsis_os2.h ..\Core\Inc\fdcan.h \
   ..\Core\Inc\gpio.h ..\Drive\Inc\motor.h \
   E:\app\Keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  ..\Algorithm\Inc\pid.h ..\Core\Inc\protocol.h
+  ..\Algorithm\Inc\pid.h ..\Core\Inc\protocol.h \
+  ..\User\Inc\fdCan_IRQ_Handler.h ..\User\Inc\app_tasks.h \
+  E:\app\Keil\ARM\ARMCLANG\Bin\..\include\string.h

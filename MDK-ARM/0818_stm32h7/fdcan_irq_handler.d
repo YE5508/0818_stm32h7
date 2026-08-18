@@ -38,4 +38,5 @@
   ..\Core\Inc\fdcan.h ..\User\Inc\app_tasks.h \
   ..\Drivers\CMSIS\RTOS2\Include\cmsis_os2.h ..\Core\Inc\protocol.h \
   ..\Drive\Inc\motor.h E:\app\Keil\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  ..\Algorithm\Inc\pid.h
+  ..\Algorithm\Inc\pid.h \
+  E:\app\Keil\ARM\ARMCLANG\Bin\..\include\string.h
