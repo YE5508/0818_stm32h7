@@ -8,8 +8,11 @@
 #include "protocol.h"
 
 #define USE_DJ 1
-#define USE_DJNUM 8
-
+#define USE_DJNUM 4
+#define M2006_NUM 4
+#define M3508_NUM 0
+#define M2006_RATIO 36
+#define M3508_RATIO 3591 / 187
 typedef enum
 {
     DJ_Disable =0,/*关：tranmit 0 current*/
@@ -105,7 +108,7 @@ typedef struct
     void DJmotor_Func(void);
     void DJmotor_Receive(CanMsg_t msg);
     //void DJmotor_PID_Reload(DJMotorPointer moter,DJmotorPID pid_reload);
-
+    void DJmotor_Monitor_All(void);
 
 #endif
 #endif

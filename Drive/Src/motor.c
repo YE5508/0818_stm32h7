@@ -2,11 +2,9 @@
 #include "protocol.h"
 #include "fdcan.h"
 
-#define M2006_RATIO 36
-#define M3508_RATIO 3591 / 187
 
-#define M2006_NUM 8
-#define M3508_NUM 8
+
+
 
 #define Zero_Distance 10
 
@@ -62,6 +60,9 @@ void DJmotor_Init(void)
     limit.PosAngleLimitFlag = false;
     limit.PosRPMFlag = true;
     limit.PosRPMLimit = 500;
+    limit.SpeedRPMLimit = 500;
+    limit.ZeroRPMLimit = 100;
+    limit.ZeroCurrentLimit_raw = 10000;
 
     statusFlag.IsSetZero = true;
     statusFlag.Overtimeflag = false;
@@ -96,8 +97,8 @@ void DJmotor_Init(void)
     }
     for (uint32_t i = 0; i < M3508_NUM; i++)
     {
-        DJmotor[i].ID = (uint8_t)(i + M2006_NUM + 1U);
-        DJmotor[i].param = dj3508_param;
+        DJmotor[i+M2006_NUM].ID = (uint8_t)(i + M2006_NUM + 1U);
+        DJmotor[i+M2006_NUM].param = dj3508_param;
     }
 
     for (uint32_t i = 0; i < USE_DJNUM; i++)
@@ -156,7 +157,7 @@ void DJmotor_Receive(CanMsg_t msg)
     DJMotorPointer motor = &DJmotor[card_id-1U];
 
     motor->valNow.PulseRead=(int16_t)(((uint16_t)msg.data[0]<<8)|msg.data[1]);
-    motor->valNow.speed_rpm=(int16_t)(((uint16_t)msg.data[2]<<8)|msg.data[3]);
+    motor->valNow.speed_rpm=(int16_t)(((uint16_t)msg.data[2]<<8)|msg.data[3]);//原始反馈：电机转子转速
     motor->valNow.current_raw=(int16_t)(((uint16_t)msg.data[4]<<8)|msg.data[5]);
 
     if(motor->param.Reduction_ratio == M3508_RATIO)
@@ -169,7 +170,7 @@ void DJmotor_Receive(CanMsg_t msg)
         motor->valNow.current_A=(float)motor->valNow.current_raw/10000.0f*10.0f;
     }
 
-    motor->valNow.speed_rpm/=(motor->param.Gear_ratio*motor->param.Reduction_ratio);
+    motor->valNow.speed_rpm/=(motor->param.Gear_ratio*motor->param.Reduction_ratio);//转化为输出轴转速用于pid控制
 
     motor->error.lastRxTime=0;
     DJmotor_AngleCalculate(motor);
@@ -251,9 +252,9 @@ static void DJmotor_SwitchMode(DJMotorPointer motor)
 	}
 }
 
-static int16_t ClampPeak(int16_t raw_data,int16_t limit)
+static float ClampPeak(float raw_data,float limit)
 {
-    if(ABS(raw_data)>limit)
+    if(ABS((int16_t)raw_data)>limit)
     return limit*GetSign(raw_data);
     else
     return raw_data;
@@ -269,11 +270,13 @@ void DJmotor_SpeedMode(DJMotorPointer motor)
 
 	if (motor->limit.RPMLimitFlag)
 	{
-		motor->velPID.SetVal = ClampPeak(motor->velPID.SetVal, motor->limit.SpeedRPMLimit);
+        float setval_limit = motor->limit.SpeedRPMLimit * motor->param.Gear_ratio *
+						   motor->param.Reduction_ratio;
+		motor->velPID.SetVal = ClampPeak(motor->velPID.SetVal, setval_limit);
 	}
 
 	motor->valSet.current_raw += PID_Caculate(&motor->velPID);
-	motor->valSet.current_raw = (int16_t)ClampPeak(motor->valSet.current_raw, motor->param.CurrentLimit_raw);
+	motor->valSet.current_raw = (int16_t)ClampPeak((float)motor->valSet.current_raw, (float)motor->param.CurrentLimit_raw);
 }
 
 static int32_t Clamp(int32_t x,int32_t min,int32_t max)
@@ -285,7 +288,7 @@ static int32_t Clamp(int32_t x,int32_t min,int32_t max)
     else 
     return x;
 }
-
+/*位置环，双环pid，位置环输出速度环控制量速度，速度环pid输出控制量电流*/
 void DJmotor_PositionMode(DJMotorPointer motor)
 {
 	motor->valSet.PulseTotal = (int32_t)(motor->valSet.angle_deg * motor->param.Gear_ratio *
@@ -306,8 +309,8 @@ void DJmotor_PositionMode(DJMotorPointer motor)
 
 	motor->posPID.CurVal = (float)motor->valNow.PulseTotal;
 
-	motor->velPID.SetVal = PID_Caculate(&motor->posPID);
-	motor->velPID.CurVal = (float)motor->valNow.speed_rpm * motor->param.Gear_ratio * motor->param.Reduction_ratio;
+	motor->velPID.SetVal = PID_Caculate(&motor->posPID);//设定转子的速度
+	motor->velPID.CurVal = (float)motor->valNow.speed_rpm * motor->param.Gear_ratio * motor->param.Reduction_ratio;//将DJmotor_Receive()中得到的输出轴转速转化为转子速度
 	if (motor->limit.PosRPMFlag)
 	{
 		motor->velPID.SetVal = ClampPeak(motor->velPID.SetVal, motor->limit.PosRPMLimit);
@@ -324,7 +327,7 @@ void DJmotor_ZeroMode(DJMotorPointer motor)
 	motor->valSet.current_raw += PID_Caculate(&motor->velPID);
 	motor->valSet.current_raw = (int16_t)ClampPeak(motor->valSet.current_raw, motor->limit.ZeroCurrentLimit_raw);
 
-	if (ABS(motor->valNow.PulseGap) < Zero_Distance)
+ 	if (ABS(motor->valNow.PulseGap) < Zero_Distance)
 	{
 		if (motor->argum.zeroCnt++ > 100U)
 		{
@@ -336,10 +339,12 @@ void DJmotor_ZeroMode(DJMotorPointer motor)
 			PID_Reset(&motor->velPID);
 			DJmotor_SetZero(motor);
 		}
-	}
+	} 
 }
 
-static void DJmotor_Monitor(DJMotorPointer motor)
+
+
+static void DJmotor_Monitor_One(DJMotorPointer motor)
 {
 	if (motor->valNow.PulseGap < 5 && motor->valNow.current_raw > 3000)
 	{
@@ -367,6 +372,17 @@ static void DJmotor_Monitor(DJMotorPointer motor)
 			motor->statusFlag.Overtimeflag = true;
 		}
 	}
+}
+
+void DJmotor_Monitor_All(void)
+{
+    	for (uint32_t i = 0; i < USE_DJNUM; i++)
+	{
+		if (DJmotor[i].Begin)
+		{
+            DJmotor_Monitor_One(&DJmotor[i]);
+	    }
+    }
 }
 
 
