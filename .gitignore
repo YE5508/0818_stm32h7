@@ -1,0 +1,20 @@
+# Visual Studio Code workspace settings
+.vscode/
+
+# Keil uVision user-specific workspace settings
+MDK-ARM/*.uvguix*
+
+# Keil build output and generated intermediate files
+MDK-ARM/0818_stm32h7/
+*.axf
+*.hex
+*.map
+*.htm
+*.build_log.htm
+*.dep
+*.d
+*.o
+*.lnp
+*.sct
+*.iex
+*.scvd
