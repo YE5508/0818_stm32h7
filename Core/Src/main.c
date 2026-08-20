@@ -21,11 +21,13 @@
 #include "FreeRTOS.h"
 #include "cmsis_os2.h"
 #include "fdcan.h"
+#include "tim.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "motor.h"
+#include "Tim_IRQ_Handler.h"
 #include "fdCan_IRQ_Handler.h"
 /* USER CODE END Includes */
 
@@ -104,6 +106,7 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_FDCAN2_Init();
+  MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
@@ -111,7 +114,7 @@ int main(void)
   /* Init scheduler */
   osKernelInitialize();  /* Call init function for freertos objects (in cmsis_os2.c) */
   MX_FREERTOS_Init();
-  fdCan_Start();
+
   /* Start scheduler */
   osKernelStart();
 
@@ -237,7 +240,10 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-
+  if(htim->Instance==TIM2)
+  {
+    TIM_PeriodElapsedCallback(htim);
+  }
   /* USER CODE END Callback 1 */
 }
 

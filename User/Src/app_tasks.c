@@ -6,8 +6,7 @@
 osMessageQueueId_t can_rx_queue;
 
 static const osThreadAttr_t Motor_Feedback_Task_attr = {.name = "Motor_Feedback_Task",  .priority = osPriorityNormal};//定义线程属性结构体，用于控制创建的线程的参数(命名，优先级)
-static const osThreadAttr_t Motor_State_Machine_Task_attr = {.name = "Motor_State_Machine_Task",  .priority = osPriorityNormal};
-static const osThreadAttr_t Motor_Monitor_Task_attr = {.name = "Motor_Monitor_Task_attr",  .priority = osPriorityNormal};
+//static const osThreadAttr_t Motor_Monitor_Task_attr = {.name = "Motor_Monitor_Task_attr",  .priority = osPriorityNormal};
 void MotorFeedbackTask(void *argument)
 {
     CanMsg_t msg;
@@ -22,28 +21,18 @@ void MotorFeedbackTask(void *argument)
 }
 
 
-void MotorStateMachineTask(void *argument)
-{
-    for(;;)
-    {	//fdCAN_Send_Data(0,0x001,1,data);
-        DJmotor_Func();
-        osDelay(1);
-    }
-}
-
-void MotorMonitorTask(void *argument)
+/*void MotorMonitorTask(void *argument)
 {
     for(;;)
     {
         DJmotor_Monitor_All();
         osDelay(10);
     }
-}
+}*/
 /*创建任务和队列*/
 void app_tasks_create(void)
 {
     can_rx_queue = osMessageQueueNew(8, sizeof(CanMsg_t), NULL);
     osThreadNew(MotorFeedbackTask, NULL, &Motor_Feedback_Task_attr);
-    osThreadNew(MotorStateMachineTask, NULL, &Motor_State_Machine_Task_attr);
-    osThreadNew(MotorMonitorTask,NULL,&Motor_Monitor_Task_attr);
+    //osThreadNew(MotorMonitorTask,NULL,&Motor_Monitor_Task_attr);
 }
