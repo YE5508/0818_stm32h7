@@ -1,4 +1,4 @@
-#include "motor.h"
+#include "DJmotor.h"
 #include "protocol.h"
 #include "fdcan.h"
 
@@ -413,7 +413,7 @@ void DJmotor_Func(void)
 				break;
 			case DJ_Current:
 				/* 直通电流:任务层每周期写 valSet.current_raw,这里补限幅 */
-				ClampPeak(DJmotor[i].valSet.current_raw, DJmotor[i].param.CurrentLimit_raw);
+				DJmotor[i].valSet.current_raw=ClampPeak(DJmotor[i].valSet.current_raw, DJmotor[i].param.CurrentLimit_raw);
 				break;
 			default:
 				break;

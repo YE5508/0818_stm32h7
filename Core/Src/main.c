@@ -108,7 +108,7 @@ int main(void)
   MX_FDCAN2_Init();
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
-
+  Tim2_Start();
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -240,10 +240,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
     HAL_IncTick();
   }
   /* USER CODE BEGIN Callback 1 */
-  if(htim->Instance==TIM2)
-  {
-    TIM_PeriodElapsedCallback(htim);
-  }
+
+  TIM_PeriodElapsedCallback(htim);
+
   /* USER CODE END Callback 1 */
 }
 

@@ -6,6 +6,10 @@ void Tim2_Start(void)
 }
 
 void TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-    DJmotor_Func();
+{   
+    if(htim->Instance==TIM2)
+    {
+        DJmotor_Func();        
+    }
+
 }

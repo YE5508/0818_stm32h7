@@ -1,5 +1,5 @@
-#ifndef MOTOR_H
-#define MOTOR_H
+#ifndef DJMOTOR_H
+#define DJMOTOR_H
 
 /*includes*/
 #include "main.h"
