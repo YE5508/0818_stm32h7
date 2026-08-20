@@ -224,7 +224,7 @@ void DJmotor_CurrentTransmit(DJMotorPointer motor)
     EncodeS16Data(&motor->valSet.current_raw,&tx_data[tag]);
     ChangeDataByte(&tx_data[tag],&tx_data[tag+1U]);
 
-    if(motor->ID>=1U&&motor->ID<=8U)
+    if(motor->ID>=1U&&motor->ID<=8U)//只控制一个电机的退化版本，正常情况应4个电机为一组发送
     {
         HAL_FDCAN_AddMessageToTxFifoQ(DJmotor_GetCanHandle(),&tx_header,tx_data);
     }
