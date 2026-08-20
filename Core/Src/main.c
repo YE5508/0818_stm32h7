@@ -73,7 +73,7 @@ int main(void)
 {
 
   /* USER CODE BEGIN 1 */
-
+	const uint8_t data[]={0};
   /* USER CODE END 1 */
 
   /* MPU Configuration--------------------------------------------------------*/
@@ -110,6 +110,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
   Tim2_Start();
   fdCan_Start();
+	fdCAN_Send_Data(0,0x001,1,data);
   /* USER CODE END 2 */
 
   /* Init scheduler */

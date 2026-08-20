@@ -108,7 +108,7 @@ static void Zdrive_Enqueue(uint32_t id, uint8_t dlc, const uint8_t *data)
         }
         CAN_Enqueue(queues[k], header, (uint8_t *)data);
     }*/
-    fdCAN_Send_Data(0,id,dlc,data);
+    fdCAN_Send_Data(FDCAN_STANDARD_ID,id,dlc,data);
 }
 
 void ZdriveInit(void)

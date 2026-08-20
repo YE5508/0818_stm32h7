@@ -12,7 +12,8 @@ void MotorFeedbackTask(void *argument)
     ZdriveReceiveMsg msg;
     const uint8_t* data={0};
     for(;;)
-    {   fdCAN_Send_Data(0,0x001,1,data);
+    {   
+			 //fdCAN_Send_Data(0,0x001,1,data);
         osDelay(100);
     }
 }

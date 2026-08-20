@@ -78,8 +78,8 @@ void MX_FDCAN2_Init(void)
   filter.FilterType   = FDCAN_FILTER_RANGE;   // id范围匹配
   filter.FilterConfig = FDCAN_FILTER_TO_RXFIFO0;
 
-  filter.FilterID1 = 0x201;
-  filter.FilterID2 = 0x208;
+  filter.FilterID1 = 0x011;
+  filter.FilterID2 = 0x331;
 
   if (HAL_FDCAN_ConfigFilter(&hfdcan2, &filter) != HAL_OK)
   {

@@ -152,34 +152,18 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>15</LineNumber>
+          <LineNumber>2774</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134238500</Address>
+          <Address>0</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\User\Src\app_tasks.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\0818_stm32h7\../User/Src/app_tasks.c\15</Expression>
-        </Bp>
-        <Bp>
-          <Number>1</Number>
-          <Type>0</Type>
-          <LineNumber>2769</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134220576</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
+          <BreakIfRCount>0</BreakIfRCount>
           <Filename>../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_fdcan.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\0818_stm32h7\../Drivers/STM32H7xx_HAL_Driver/Src/stm32h7xx_hal_fdcan.c\2769</Expression>
+          <Expression></Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
