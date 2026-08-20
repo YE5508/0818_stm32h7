@@ -3,20 +3,17 @@
 #include "fdCan_IRQ_Handler.h"
 
 /* 队列句柄 */
-osMessageQueueId_t can_rx_queue;
+osMessageQueueId_t zdrive_can_rx_queue;
 
 static const osThreadAttr_t Motor_Feedback_Task_attr = {.name = "Motor_Feedback_Task",  .priority = osPriorityNormal};//定义线程属性结构体，用于控制创建的线程的参数(命名，优先级)
 //static const osThreadAttr_t Motor_Monitor_Task_attr = {.name = "Motor_Monitor_Task_attr",  .priority = osPriorityNormal};
 void MotorFeedbackTask(void *argument)
 {
-    CanMsg_t msg;
+    ZdriveReceiveMsg msg;
+    const uint8_t* data={0};
     for(;;)
-    {   
-        if (osMessageQueueGet(can_rx_queue, &msg, NULL, osWaitForever) != osOK)
-        continue;
-        
-        DJmotor_Receive(msg);
-        osDelay(1);
+    {   fdCAN_Send_Data(0,0x001,1,data);
+        osDelay(100);
     }
 }
 
@@ -32,7 +29,7 @@ void MotorFeedbackTask(void *argument)
 /*创建任务和队列*/
 void app_tasks_create(void)
 {
-    can_rx_queue = osMessageQueueNew(8, sizeof(CanMsg_t), NULL);
+    zdrive_can_rx_queue = osMessageQueueNew(8, sizeof(ZdriveReceiveMsg), NULL);
     osThreadNew(MotorFeedbackTask, NULL, &Motor_Feedback_Task_attr);
     //osThreadNew(MotorMonitorTask,NULL,&Motor_Monitor_Task_attr);
 }

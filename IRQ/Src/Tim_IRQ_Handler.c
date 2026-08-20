@@ -9,7 +9,12 @@ void TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {   
     if(htim->Instance==TIM2)
     {
-        DJmotor_Func();        
+        #if USE_DJ
+        DJmotor_Func();
+        #endif
+        #if USE_ZMDR
+        ZdriveFunc();
+        #endif        
     }
 
 }

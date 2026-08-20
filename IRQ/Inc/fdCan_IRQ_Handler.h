@@ -5,8 +5,10 @@
 #include "fdcan.h"
 #include "app_tasks.h"
 #include <string.h>
+#include "ZDrive.h"
+#include "protocol.h"
 
 void fdCan_Start(void);
-void fdCAN_Send_Data(uint32_t ide, uint32_t id, uint8_t dlc, uint8_t *data);
+void fdCAN_Send_Data(uint32_t ide, uint32_t id, uint8_t dlc,const uint8_t *data);
 
 #endif

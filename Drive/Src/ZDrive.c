@@ -2,9 +2,9 @@
  * @file    ZDrive.c
  * @brief   ZDrive J60/Z-Smart motor driver, ported from R2 chassis.
  */
-#include "includes.h"
+
 #include "ZDrive.h"
-#include "FD_Canqueue.h"
+
 
 // #if USE_ZMDR
 
@@ -13,21 +13,25 @@ Zdrive Zmotor[USE_ZDRIVE_NUM];
 bool CanFullFlag = false; // 发送队列满标志,由 Zdrive_Enqueue() 置位
 
 // 电机落在哪一路 CAN:SPLIT_COUNT = 0 时全部走第一路,否则前 SPLIT_COUNT 个走第一路
-static inline bool is_Zdrive_OnFirstBus(uint32_t motor_index)
+/*static inline bool is_Zdrive_OnFirstBus(uint32_t motor_index)
 {
     return (MOTOR_ZDRIVE_SPLIT_COUNT == 0U) ||
            (motor_index < MOTOR_ZDRIVE_SPLIT_COUNT);
 }
+*/
 
 // 判断 ID(1-based)的电机是否挂在 bus(0=FDCAN1,1=FDCAN2,2=FDCAN3)上
-static inline bool Zdrive_IdOnBus(uint32_t id, uint8_t bus)
+/*static inline bool Zdrive_IdOnBus(uint32_t id, uint8_t bus)
 {
     uint8_t cfg_bus = is_Zdrive_OnFirstBus(id - 1U) ? (uint8_t)MOTOR_ZDRIVE_CAN_BUS_1
                                                     : (uint8_t)MOTOR_ZDRIVE_CAN_BUS_2;
     return cfg_bus == bus;
 }
+*/
+
+
 // 获取电机的发送队列,根据电机 ID(0-based)判断挂在哪一路 CAN 上
-static FDCAN_SendQueueType *Zdrive_GetTxQueue(uint32_t motor_index)
+/*static FDCAN_SendQueueType *Zdrive_GetTxQueue(uint32_t motor_index)
 {
     uint8_t bus = is_Zdrive_OnFirstBus(motor_index) ? (uint8_t)MOTOR_ZDRIVE_CAN_BUS_1
                                                     : (uint8_t)MOTOR_ZDRIVE_CAN_BUS_2;
@@ -42,21 +46,35 @@ static FDCAN_SendQueueType *Zdrive_GetTxQueue(uint32_t motor_index)
     }
     return &CAN2_Txqueue;
 }
-
+*/
 // 拆分是否生效(第二路总线上有电机)
-static inline bool Zdrive_SplitActive(void)
+/*static inline bool Zdrive_SplitActive(void)
 {
     return (MOTOR_ZDRIVE_SPLIT_COUNT > 0U) &&
            (MOTOR_ZDRIVE_SPLIT_COUNT < MOTOR_ZDRIVE_COUNT) &&
            (MOTOR_ZDRIVE_CAN_BUS_2 != MOTOR_ZDRIVE_CAN_BUS_1);
 }
+*/
 
 static const uint8_t s_empty_data[1] = {0};
+
+static float DEG2N(float degree)
+{
+    return (degree-POD)/(POU-POD)*0xffff;
+}
+
+static float N2DEG(float n)
+{
+    return (n/0xffff)*(POU-POD)+POD;
+}
+
 
 // 入队:按帧 ID 解析所属总线队列(ID 1..8 各自解析,0xFU 广播两路都发);
 // 满队列置 Can2FullFlag 并丢弃,行为与直接写入一致
 static void Zdrive_Enqueue(uint32_t id, uint8_t dlc, const uint8_t *data)
 {
+    /*完整版本实现，按照CANid区分fdCAN总线，分总线分发*/
+    /*
     FDCAN_RxHeaderTypeDef header;
     FDCAN_SendQueueType *queues[2];
     uint8_t queue_cnt;
@@ -89,7 +107,8 @@ static void Zdrive_Enqueue(uint32_t id, uint8_t dlc, const uint8_t *data)
             continue;
         }
         CAN_Enqueue(queues[k], header, (uint8_t *)data);
-    }
+    }*/
+    fdCAN_Send_Data(0,id,dlc,data);
 }
 
 void ZdriveInit(void)
@@ -146,7 +165,7 @@ void ZdriveSet(float data, uint8_t id, uint8_t set_code)
 void ZdriveReceive(FDCAN_RxHeaderTypeDef Rxheader, uint8_t *Rx_Data, uint8_t bus)
 {
     uint32_t control_id = (uint32_t)(Rxheader.Identifier & 0xFU);
-    uint32_t operation_id = Rxheader.Identifier >> 4U;
+    uint32_t operation_id = Rxheader.Identifier >> 4U;//cmd_id
     float tmp_pos = 0.0f;
     int16_t tmp_vel = 0;
     int16_t tmp_cur = 0;
@@ -168,11 +187,11 @@ void ZdriveReceive(FDCAN_RxHeaderTypeDef Rxheader, uint8_t *Rx_Data, uint8_t bus
     }
 
     // 该 ID 按配置不在这条总线上(如同总线的 DJI 反馈 0x201..0x204)→ 丢弃
-    if (!Zdrive_IdOnBus(control_id, bus))
+    /*if (!Zdrive_IdOnBus(control_id, bus))
     {
         return;
-    }
-    uint32_t motor_index = control_id - 1U;
+    }*/
+    uint32_t motor_index = control_id - 1U;//一个电机时，通过zdrive把电机nodeid设置为1
 
     if (Rxheader.DataLength == FDCAN_DLC_BYTES_4)
     {
@@ -266,6 +285,7 @@ void ZdriveAsk(uint8_t id, uint8_t ask_code)
     }
 
     Zdrive_Enqueue(id | ((uint32_t)ask_code << 4U), 0U, s_empty_data);
+
 }
 
 void ZdriveSetPVT(float speed, float angle, uint8_t id)
@@ -316,7 +336,6 @@ void ZdriveSetPosVelLimit(float vel_limit, uint8_t id)
     memcpy(data, &vel_limit, sizeof(float));
 
     Zdrive_Enqueue(id | ((uint32_t)Vel_Limit << 4U), 4U, data);
-
     ZdriveAsk(id, Vel_Limit);
 }
 

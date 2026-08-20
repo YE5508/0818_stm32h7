@@ -3,9 +3,9 @@
 
 #include "cmsis_os2.h"
 #include "protocol.h"
-#include "motor.h"
+#include "DJmotor.h"
 
-extern osMessageQueueId_t can_rx_queue;
+extern osMessageQueueId_t zdrive_can_rx_queue;
 void app_tasks_create(void);
 
 

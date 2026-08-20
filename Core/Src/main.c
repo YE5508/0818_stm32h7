@@ -26,7 +26,7 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "motor.h"
+#include "DJmotor.h"
 #include "Tim_IRQ_Handler.h"
 #include "fdCan_IRQ_Handler.h"
 /* USER CODE END Includes */
@@ -93,7 +93,7 @@ int main(void)
   HAL_Init();
 
   /* USER CODE BEGIN Init */
-  DJmotor_Init();
+  ZdriveInit();
   /* USER CODE END Init */
 
   /* Configure the system clock */
@@ -109,6 +109,7 @@ int main(void)
   MX_TIM2_Init();
   /* USER CODE BEGIN 2 */
   Tim2_Start();
+  fdCan_Start();
   /* USER CODE END 2 */
 
   /* Init scheduler */

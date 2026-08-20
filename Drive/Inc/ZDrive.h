@@ -8,16 +8,16 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "main.h"
-#include "FD_Canqueue.h"
-#include "motor_config.h"
+#include "fdCan_IRQ_Handler.h"
 
 #ifdef __cplusplus
 extern "C"
 {
 #endif
 
-#define USE_ZDRIVE_NUM MOTOR_ZDRIVE_COUNT
+#define USE_ZDRIVE_NUM 1
 #define Zdrive_Hz 10
+#define USE_ZMDR 1
 
 #define POU 10000.f
 #define POD -10000.f

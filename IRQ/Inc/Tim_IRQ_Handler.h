@@ -3,7 +3,8 @@
 
 #include "main.h"
 #include "tim.h"
-#include "motor.h"
+#include "DJmotor.h"
+#include "ZDrive.h"
 
 
 void Tim2_Start(void);

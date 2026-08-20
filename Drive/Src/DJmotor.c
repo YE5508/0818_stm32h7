@@ -120,7 +120,7 @@ void DJmotor_AngleCalculate(DJMotorPointer motor)
 
     if (ABS(motor->valNow.PulseGap) > 4096)
     {
-        motor->valNow.PulseGap = (uint16_t)(motor->valNow.PulseGap -
+        motor->valNow.PulseGap = (int16_t)(motor->valNow.PulseGap -
                                             GetSign(motor->valNow.PulseGap) * (int32_t)motor->param.PulsePerRound);
     }
 

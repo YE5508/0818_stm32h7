@@ -7,7 +7,7 @@
 #include "pid.h"
 #include "protocol.h"
 
-#define USE_DJ 1
+#define USE_DJ 0
 #define USE_DJNUM 4
 #define M2006_NUM 4
 #define M3508_NUM 0
